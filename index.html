@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital and Analog Clock</title>
+<style>
+    body {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    background-color: black;
+    font-family: 'Arial', sans-serif;
+}
+
+.clock-container {
+    margin: 3% auto;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 30rem ;
+    height: 30rem;
+}
+
+.analog-clock {
+    position: relative;
+    margin-left: -6.5rem;
+    padding: 50%;
+    width: 200px;
+    height: 200px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background-color: black;
+    box-shadow: 0px 0px 32px 0px rgba(8, 119, 245,0.8);
+}
+
+.hand {
+    position: absolute;
+    background-color: #fff;
+    transform-origin: bottom;
+    transform: translateX(-50%);
+}
+
+.hour-hand {
+    width: 6px;
+    height: 130px;
+    bottom: 50%;
+    left: 50%;
+}
+
+.minute-hand {
+    width: 4px;
+    height: 220px;
+    bottom: 50%;
+    left: 50%;
+}
+
+.second-hand {
+    width: 2px;
+    height: 220px;
+    background-color: red;
+    bottom: 50%;
+    left: 50%;
+}
+
+.center {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: red;
+    border-radius: 50%;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+
+.digital-clock {
+    margin:-6.7%;
+    font-size: 7.3rem;
+    margin-bottom: 3rem;
+    color: grey;
+}
+h1{
+    color: white;
+    font-size: 2rem;
+}
+</style>
+</head>
+<body>
+    <div class="clock-container">
+        <h1>TICK! TOCK!</h1>
+        <div class="digital-clock" id="digitalClock"></div>
+        <div class="analog-clock">
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+            <div class="center"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const hourHand = document.querySelector(".hour-hand");
+    const minuteHand = document.querySelector(".minute-hand");
+    const secondHand = document.querySelector(".second-hand");
+    const digitalClock = document.getElementById("digitalClock");
+
+    function updateClock() {
+        const now = new Date();
+
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        const hourDegrees = ((hours % 12) / 12) * 360 + (minutes / 60) * 30;
+        const minuteDegrees = (minutes / 60) * 360;
+        const secondDegrees = (seconds / 60) * 360;
+
+        hourHand.style.transform = `translateX(-50%) rotate(${hourDegrees}deg)`;
+        minuteHand.style.transform = `translateX(-50%) rotate(${minuteDegrees}deg)`;
+        secondHand.style.transform = `translateX(-50%) rotate(${secondDegrees}deg)`;
+
+        const digitalHours = hours < 10 ? "0" + hours : hours;
+        const digitalMinutes = minutes < 10 ? "0" + minutes : minutes;
+        const digitalSeconds = seconds < 10 ? "0" + seconds : seconds;
+
+        digitalClock.textContent = `${digitalHours}:${digitalMinutes}:${digitalSeconds}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+});
+
+    </script>
+</body>
+</html>
